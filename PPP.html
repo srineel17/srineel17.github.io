@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en-US" class="h-100">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Chris Ross">
+        <meta name="description" content="Convert your salary using Purchasing Power Parity (PPP)">
+        <meta property="og:description" content="Convert your salary using Purchasing Power Parity (PPP)">
+        <meta property="og:title" content="PPP Salary Converter">
+        <meta name="twitter:title" content="PPP Salary Converter">
+        <title>PPP Salary Converter with Tax deductions</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.3.4/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+        <style>
+            .title
+            {
+                color: #090909;
+                font-family: 'Lato', Helvetica, sans-serif;
+            }
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+        <script src="./data.js"></script>
+    </head>
+    <body class="d-flex flex-column h-100" onload="initialize()">
+        <main class="flex-shrink-0">
+            <div class="container-fluid">
+                <div class="row mx-3 my-3 mt-md-5 mb-md-4 title">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <h1>Purchasing Power Parity(PPP) Salary Converter</h1>
+                        <!-- <p class="lead">Convert your salary from one currency to another using PPP</p> -->
+                    </div>
+                </div>
+                <div class="row mx-3">
+                    <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-5">
+                        <form>
+                            <datalist id="countries"></datalist>
+                            <div class="row mb-3">
+                                <div class="form-group col">
+                                    <label for="sourceCountry" class="mb-2">Source Country</label>
+                                    <select class="form-select searchableSelect" aria-label="Source Country" id="sourceCountry" onchange="calculatePPP()"></select>
+                                </div>
+                            </div>
+                            <div class="row my-3">
+                                <div class="form-group col">
+                                    <label for="sourceAmount" class="mb-2">Salary in <span id="sourceCountryName"></span>'s Local Currency</label>
+                                    <input class="form-control" autofocus="autofocus" type="text" placeholder="Example: 100" aria-label="Source Amount" id="sourceAmount" oninput="updateTargetAmount()"/>
+                                </div>
+                            </div>
+                            <div class="row my-3">
+                                <div class="form-group col">
+                                    <label for="targetCountry" class="mb-2">Target Country</label>
+                                    <select class="form-select searchableSelect" aria-label="Target Country" id="targetCountry" onchange="calculatePPP()"></select>
+                                </div>
+                            </div>
+                            <div class="row my-3">
+                                <div class="form-group col">
+                                    <label for="output" class="mb-2">Output</label>
+                                    <input class="form-control" type="text" aria-label="Output" id="output" readonly/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row mx-3 mb-4 mt-1">
+                    <div class="col-12 col-sm-10 col-md-9 col-lg-7 col-xl-7">
+                        <div class="collapse" id="outputCollapse">
+                            <div class="card card-body">
+                                <p>
+                                    You require a salary of <span id="targetAmount">_______</span> in <span id="targetCountryName"></span>'s local currency to live a similar
+                                    quality of life as you would with a salary of <span id="sourceAmountLabel">_______</span> in <span id="sourceCountryLabel"></span>'s local currency.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mx-3 my-3">
+                    <div class="col-12 col-sm-10 col-md-9 col-lg-12 col-xl-12">
+                      <!--
+                         <p>
+                            <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#learnMore" aria-expanded="false" aria-controls="learnMore">
+                                Learn More
+                            </button>
+                        </p>
+                        <div class="collapse" id="learnMore"> </div>
+                      --> 
+                            <div class="card card-body">
+                                <p>
+                                    The foreign exchange rate tells you that a salary of 80,000 US Dollars can be converted into 6,325,344 Indian Ruppee.
+                                    What it doesn't tell you is if 100,000 USD in America can get you the same standard of living as 80,000 Euros does in France.
+                                    How much money would you need in America to buy the same things that you would buy in France?
+                                </p>
+                                <p>
+                                    This is where <a href="https://en.wikipedia.org/wiki/Purchasing_power_parity">Purchasing Power Parity (PPP)</a> comes in.
+                                    Converting your salary using PPP, instead of the exchange rate, helps to give you a better approximation of what your standard
+                                    of living would be like in two different countries. This can be handy to know if you're planning on moving, a remote worker,
+                                    sending money abroad, or many other things.
+                                </p>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer mt-auto py-4 bg-light">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 text-center text-muted">
+                        Data Source for PPP: <a href="https://www.worldbank.org/">The World Bank</a>
+                    </div>
+                </div>
+            </div>
+    </body>
+</html>
