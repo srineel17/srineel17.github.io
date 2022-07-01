@@ -51,6 +51,12 @@
                             </div>
                             <div class="row my-3">
                                 <div class="form-group col">
+                                    <label for="sourceAmount" class="mb-2">Income Tax in <span id="sourceCountryName"></span>, Percentage</label>
+                                    <input class="form-control" autofocus="autofocus" type="text" placeholder="Example: 10" aria-label="Source Amount" id="sourceIncomeTax" oninput="updateTargetAmountTax()"/>
+                                </div>
+                            </div>
+                            <div class="row my-3">
+                                <div class="form-group col">
                                     <label for="targetCountry" class="mb-2">Target Country</label>
                                     <select class="form-select searchableSelect" aria-label="Target Country" id="targetCountry" onchange="calculatePPP()"></select>
                                 </div>
@@ -69,8 +75,8 @@
                         <div class="collapse" id="outputCollapse">
                             <div class="card card-body">
                                 <p>
-                                    You require a salary of <span id="targetAmount">_______</span> in <span id="targetCountryName"></span>'s local currency to live a similar
-                                    quality of life as you would with a salary of <span id="sourceAmountLabel">_______</span> in <span id="sourceCountryLabel"></span>'s local currency.
+                                    You require a salary of <strong><span id="targetAmount">_______</span></strong> in <span id="targetCountryName"></span>'s local currency <strong>after taxes</strong> to live a similar
+                                    quality of life as you would with a salary of <strong><span id="sourceAmountLabel">_______</span> after taxes</strong> in <span id="sourceCountryLabel"></span>'s local currency.
                                 </p>
                             </div>
                         </div>
@@ -89,7 +95,7 @@
                             <div class="card card-body">
                                 <p>
                                     The foreign exchange rate tells you that a salary of 80,000 US Dollars can be converted into 6,325,344 Indian Rupees.
-                                    What it doesn't tell you is if 100,000 USD in America can get you the same standard of living as 6,325,344 Rupees does in India(PS it is a big amount for Indians).
+                                    What it doesn't tell you is if 100,000 USD in America can get you the same standard of living as 6,325,344 Rupees does in India(PS it is 16 times of an average salaried individual).
                                     How much money would you need in America to buy the same things that you would buy in India?
                                 </p>
                                 <p>

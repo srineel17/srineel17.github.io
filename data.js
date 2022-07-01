@@ -75,6 +75,31 @@ function updateTargetAmount() {
         document.getElementById('sourceAmount').focus();
     }, 0);
 }
+
+function updateTargetAmountTax() {
+    const srcAmt = parseFloat($('#sourceAmount').val());
+    const srcIT = parseFloat($('#sourceIncomeTax').val())/100;
+   
+   
+    const sourceAmount =  srcAmt - (srcAmt * srcIT);
+    if (sourceAmount && sourceAmount > 0 || sourceAmount == 0) {
+        new bootstrap.Collapse($('#outputCollapse')[0], { toggle: false }).show();
+        $('#sourceAmountLabel').text(`${sourceAmount.toFixed(2)}`);
+        const targetAmount = sourceAmount / SourcePPP * TargetPPP;
+        $('#output').val(`${targetAmount.toFixed(2)}`);
+        $('#targetAmount').text(`${targetAmount.toFixed(2)}`);
+    }
+    else {
+        new bootstrap.Collapse($('#outputCollapse')[0], { toggle: false }).hide();
+        $('#sourceAmountLabel').text('_______');
+        $('#output').val('');
+        $('#targetAmount').text('_______');
+    }
+    // Return focus to the source salary input
+    window.setTimeout(function () {
+        document.getElementById('sourceIncomeTax').focus();
+    }, 0);
+}
 /**
  * Update all of the country names on the page
  */
