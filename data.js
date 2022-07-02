@@ -46,6 +46,9 @@ function calculatePPP() {
     TargetPPP = PPPData[targetCountry][Math.max(...Object.keys(PPPData[targetCountry]).map(x => parseInt(x)))];
     updateTargetAmount();
     updateTargetAmountTax();
+    window.setTimeout(function () {
+        document.getElementById('sourceAmount').focus();
+    }, 0);
 }
 
  // Calculates the resulting salary given the current input salary
