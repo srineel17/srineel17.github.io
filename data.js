@@ -51,12 +51,20 @@ function calculatePPP() {
     SourcePPP = PPPData[sourceCountry][Math.max(...Object.keys(PPPData[sourceCountry]).map(x => parseInt(x)))];
     TargetPPP = PPPData[targetCountry][Math.max(...Object.keys(PPPData[targetCountry]).map(x => parseInt(x)))];
     updateTargetAmount();
+    updateTargetAmountTax();
 }
 /**
  * Calculates the resulting salary given the current input salary
  */
 function updateTargetAmount() {
-    const sourceAmount = parseFloat($('#sourceAmount').val());
+    let sourceAmount = parseFloat($('#sourceAmount').val());
+    if (parseFloat($('#sourceIncomeTax').val()) >= 0.0){
+        const srcAmt = parseFloat($('#sourceAmount').val());
+        const srcIT = parseFloat($('#sourceIncomeTax').val())/100;
+        console.log(srcAmt);
+        console.log(srcIT);
+        sourceAmount =  srcAmt - (srcAmt * srcIT);
+    }
     if (sourceAmount && sourceAmount > 0 || sourceAmount == 0) {
         new bootstrap.Collapse($('#outputCollapse')[0], { toggle: false }).show();
         $('#sourceAmountLabel').text(`${sourceAmount.toFixed(2)}`);
@@ -75,13 +83,15 @@ function updateTargetAmount() {
         document.getElementById('sourceAmount').focus();
     }, 0);
 }
-
+/**
+ * Calculates the resulting salary given the current input salary along with the income tax
+ */
 function updateTargetAmountTax() {
     const srcAmt = parseFloat($('#sourceAmount').val());
     const srcIT = parseFloat($('#sourceIncomeTax').val())/100;
-   
-   
+
     const sourceAmount =  srcAmt - (srcAmt * srcIT);
+    
     if (sourceAmount && sourceAmount > 0 || sourceAmount == 0) {
         new bootstrap.Collapse($('#outputCollapse')[0], { toggle: false }).show();
         $('#sourceAmountLabel').text(`${sourceAmount.toFixed(2)}`);
